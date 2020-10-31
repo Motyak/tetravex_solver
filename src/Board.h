@@ -4,29 +4,35 @@
 #include <vector>
 #include <stack>
 
-const struct Tile NULL_TILE = {0, 0, 0, 0};
+// const struct TileValue NULL_TILE = { 0, 0, 0, 0 };
 
-struct Tile
+struct TileValue
 {
-    int left;
-    int up;
-    int right;
-    int down;
+	unsigned left, up, right, down;
 };
 
 class Board
 {
-    std::vector<Tile> grid;
-    std::vector<Tile> unused;
-
   public:
-    Board(const std::vector<Tile>& tiles);
+	struct Tile
+	{
+		TileValue val;
+		bool inGrid = false;
+		int gridIndex = -1;
+	};
+
+
+  private:
+    std::vector<Tile> tiles;
+
+  public:	
+	// vector passé par copie pour empecher modification depuis exterieur
+	// (pb de 'const&' : init du vector en une ligne => degueulasse)
+    Board(std::vector<Tile> tiles);
     ~Board();
 
-    // std::vector<Tile> getGrid();
-    // std::vector<Tile> getUnused();
-
-    bool isFilled();    //if unused is empty
-    
+	bool addTileToGrid(const unsigned& tileIndex, const unsigned& gridIndex);
+    bool isFilled();
+    void print();
 };
 #endif

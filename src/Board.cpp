@@ -1,18 +1,14 @@
 #include "Board.h"
 
-Board::Board(Board* parent) : parent(parent)
-{
-    this->grid = std::vector<Tile>(parent->getGrid());
-    this->unused = std::vector<Tile>(parent->getUnused());
-}
+#include <algorithm>
 
-Board::Board(const std::vector<Tile>& tiles) : unused(tiles)
+Board::Board(std::vector<Tile> tiles)
 {
-    // unsigned short sr = sqrt(tiles.size());
+    // unsigned sr = sqrt(tiles.size());
     // if(sr - floor(sr) != 0)
     //     std::cout<<"err dim non valide"<<std::endl;
-    for(int i = 1 ; i <= tiles.size() ; ++i)
-        this->grid.push_back(NULL_TILE);
+
+    this->tiles = tiles;
 }
 
 Board::~Board()
@@ -20,17 +16,54 @@ Board::~Board()
     ;
 }
 
-Board* Board::getParent()
+bool Board::addTileToGrid(const unsigned& tileIndex, const unsigned& gridIndex)
 {
-    return this->parent;
-}
+    // si index dépasse taille-1 de tiles => err (index incorrect)
+    // si tile.inGrid => err (déjà dans la grid)
 
-Board* Board::generateChild()
-{
-    return new Board(this);
+
+    Tile& t = tiles.at(tileIndex);
+
+    // retourne false si le tile ne rentre pas dans la grid (régles tetravex)
+    // sinon..
+        t.inGrid = true;
+        t.gridIndex = gridIndex;
+
+    return true;
 }
 
 bool Board::isFilled()    
 {
-    return this->unused.empty();
+    for(const Tile& t : this->tiles)
+        if(!t.inGrid)
+            return false;
+    return true;
+}
+
+void Board::print()
+{
+    std::vector<Tile> placed = this->tiles;
+
+    // supprimer tous les Tide non placés
+    std::remove_if(placed.begin(), placed.end(), [](const Tile& t){
+        return !t.inGrid;
+    });
+    
+    // trier par ordre croissant selon position dans la grille du tile
+    auto cmp = [](const Tile& t1, const Tile& t2){
+        return t1.gridIndex > t2.gridIndex;
+    };
+    std::sort(placed.begin(), placed.end(), cmp);
+
+    // afficher dans l'ordre (comment on gere les trous ?)
+    int index = 0;
+    for(int i = 0 ; i < this->tiles.size() ; ++i)
+    {
+        // combler les trous jusqu'à la première pièce placée
+        for(index ; index < placed.at(i).gridIndex ; ++index)
+            // afficher VIDE
+            ;
+        // afficher placed.at(i).val
+
+    }
 }

@@ -123,4 +123,20 @@ les Plateaux fils, etc..
 vérifier si le move est valide, etc..
 
 
+__________________________________
+
+
+On pourrait dire qu'un TileValue c'est la struct avec les haut, bas, gauche, droite
+et que la struct Tile contient une TileValue avec l'indexGrid qui indique
+sa position dans la grid, -1 dans le cas où il n'est pas utilisé.
+
+
+
+!!IMPORTANT!!
+On rappelle que le but de la génération de l'arbre est de BOURRER
+jusqu'à ce que ça soit cassé ou rempli ou résolu.
+Donc pas besoin de méthode pour retirer une pièce du plateau, uniquement
+pour ajouter comme un singe.
+
+
 
