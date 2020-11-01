@@ -140,3 +140,4 @@ pour ajouter comme un singe.
 
 
 
+Il faut régler le print, le addTileToGrid est dégueulasse avec plein de if.
