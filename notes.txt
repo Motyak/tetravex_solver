@@ -141,3 +141,24 @@ pour ajouter comme un singe.
 
 
 Il faut régler le print, le addTileToGrid est dégueulasse avec plein de if.
+
+Utiliser des pointeurs bordel de merde, 
+on fait un vector pour ce qui est unused et un vector
+pour la grid. Emplacement vide si valeur nullptr. MERDE.
+
+
+
+
+__________________________________
+
+
+On va dire qu'un Tile c'est une structure de int avec les valeurs d'un Tile.
+Un Board c'est un alias vers un std::vector<Tile*>.
+Dans Solver on a : 
+-un std::vector<Tile*>* qui représente les Tiles (configuration)
+-un Board* qui représente le currentBoard (<=>tmp)
+-une std::stack<Board*> qui permet de construire l'arbre et d'appliquer le backtracking
+
+Dans board on a :
+-std::vector<Tile*> pour les Tiles placées.
+-std::stack<int> pour les emplacements libres restants sur le board

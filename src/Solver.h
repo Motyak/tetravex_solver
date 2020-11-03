@@ -13,10 +13,11 @@ class Solver
     Solver(std::string instanceFileName);
     ~Solver();
 
-    Board* generateChild();
-    Board* getParent();
-
   public:
     Board* solve();
+
+  private:
+	bool boardIsSolved();
+	bool tileCanBePlaced(const Tile& t, unsigned i);
 };
 #endif
