@@ -7,10 +7,9 @@
 // g++ -o bin/main src/Board.cpp src/Solver.cpp src/main.cpp
 int main()
 {
-    Solver solver("examples/5x5.txt");
+    Solver solver("examples/2x2.txt");
+    solver.solve();
     solver.printBoard();
-    
-    // std::cout<<solver.solve()<<std::endl;
 
     return 0;
 }

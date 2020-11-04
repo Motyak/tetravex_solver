@@ -18,6 +18,6 @@ class Solver
 
   private:
 	bool boardIsSolved();
-	bool tileCanBePlaced(const Tile& t, unsigned i);
+	bool tileCanBePlaced(const unsigned& tileIndex, const unsigned& gridIndex);
 };
 #endif

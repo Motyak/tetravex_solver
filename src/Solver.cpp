@@ -57,14 +57,15 @@ Board* Solver::solve()
         {
             // on push dans la stack les différents scénarios possibles (boards)
             unsigned freePosition;
-            Tile* t = this->currentBoard->tiles[this->currentBoard->tileToPlace];
+            // Tile* t = this->currentBoard->tiles[this->currentBoard->tileToPlace];
             while(!this->currentBoard->freePositions.empty())
             {
                 // on recupere une position libre
                 freePosition =  this->currentBoard->freePositions.top();
                 this->currentBoard->freePositions.pop();
                 // si la tileToPlace est placable a la position..
-                if(this->tileCanBePlaced(*t, freePosition))
+                // if(this->tileCanBePlaced(*t, freePosition))
+                if(this->tileCanBePlaced(this->currentBoard->tileToPlace, freePosition))
                 {
                     // on clone currentBoard et on y ajoute la tile
                     Board* child = new Board(*this->currentBoard);
@@ -80,11 +81,14 @@ Board* Solver::solve()
 
 bool Solver::boardIsSolved()
 {
-    // stub
+    unsigned nbOfTiles = this->currentBoard->tiles.size();
+    for(int i = 0 ; i < nbOfTiles ; ++i)
+        if(this->currentBoard->grid[i] == nullptr)
+            return false;
     return true;
 }
 
-bool Solver::tileCanBePlaced(const Tile& t, unsigned i)
+bool Solver::tileCanBePlaced(const unsigned& tileIndex, const unsigned& gridIndex)
 {
     // stub
     return true;
@@ -95,7 +99,7 @@ void Solver::printBoard()
     unsigned nbOfTiles = this->currentBoard->tiles.size();
     for(int i = 0 ; i < nbOfTiles ; ++i)
     {
-        Tile* t = this->currentBoard->tiles[i];
+        Tile* t = this->currentBoard->grid[i];
         std::cout<<"["<<i<<"] => ";
         std::cout<<t->left<<";"<<t->up<<";"<<t->right<<";"<<t->down<<std::endl;
     } 
