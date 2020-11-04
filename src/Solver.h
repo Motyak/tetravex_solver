@@ -10,11 +10,11 @@ class Solver
     Board* currentBoard;
     std::stack<Board*> stack;
 
-    Solver(std::string instanceFileName);
-    ~Solver();
-
   public:
+  	Solver(const std::string& instanceFileName);
+    ~Solver();
     Board* solve();
+	void printBoard();
 
   private:
 	bool boardIsSolved();

@@ -5,10 +5,10 @@
 #include <stack>
 #include <array>
 
-typedef struct Tile
+typedef struct 
 {
 	unsigned left, up, right, down;
-};
+}Tile;
 
 class Board
 {
