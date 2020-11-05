@@ -162,3 +162,11 @@ Dans Solver on a :
 Dans board on a :
 -std::vector<Tile*> pour les Tiles placées.
 -std::stack<int> pour les emplacements libres restants sur le board
+
+__________________________________
+
+Pour la méthode tileCanBePlaced, d'abord mettre tous les checks dans le même corps,
+puis on essai d'opti et eventuellement on sépare en sous-méthodes privées.
+
+Logger la progression de l'arbre (tentative 0->1 par exemple.. ou alors juste
+l'étage donc 0) 

@@ -7,17 +7,19 @@
 
 class Solver
 {
+    unsigned width, height;
     Board* currentBoard;
     std::stack<Board*> stack;
 
   public:
   	Solver(const std::string& instanceFileName);
     ~Solver();
-    Board* solve();
+    bool solve();
 	void printBoard();
+	bool boardIsSolved();
 
   private:
-	bool boardIsSolved();
+	// bool boardIsSolved();
 	bool tileCanBePlaced(const unsigned& tileIndex, const unsigned& gridIndex);
 };
 #endif

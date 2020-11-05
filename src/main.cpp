@@ -8,8 +8,10 @@
 int main()
 {
     Solver solver("examples/2x2.txt");
-    solver.solve();
-    solver.printBoard();
+    if(solver.solve())
+        solver.printBoard();
+    else
+        std::cout<<"Aucune solution trouvé"<<std::endl;
 
     return 0;
 }
