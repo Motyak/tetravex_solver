@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+unsigned Board::nbOfInstances = 1;
+
 Board::Board(std::vector<Tile*> tiles)
 {
     unsigned nbOfTiles = tiles.size();
@@ -14,6 +16,17 @@ Board::Board(std::vector<Tile*> tiles)
         this->grid.push_back(nullptr);
 
     this->tileToPlace = 0;
+}
+
+// on pourra laisser celui par défaut apres debuggage
+Board::Board(const Board& board)
+{
+    this->nbOfInstances++;
+    std::cout<<"nb de boards : "<<this->nbOfInstances<<std::endl;
+
+    this->tiles = board.tiles;
+    this->grid = board.grid;
+    this->tileToPlace = board.tileToPlace;
 }
 
 Board::~Board()

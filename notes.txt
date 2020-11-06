@@ -170,3 +170,11 @@ puis on essai d'opti et eventuellement on sépare en sous-méthodes privées.
 
 Logger la progression de l'arbre (tentative 0->1 par exemple.. ou alors juste
 l'étage donc 0) 
+
+_______________________________
+
+PB : trop de mémoires consommés, trop de boards créés, met trop de temps
+à trouver le 5x5 (alors que 3x3 rapide).
+
+L'exemple 4x4 nécessite 1050313 plateaux générés avant de trouver la solution.
+L'exemple 3x3 nécessite 167 plateaux (fait en 0.024s).

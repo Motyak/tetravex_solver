@@ -21,12 +21,14 @@ typedef struct
 class Board
 {
   public:	
+	static unsigned nbOfInstances;
 	//const
 	std::vector<Tile*> tiles;
     std::vector<Tile*> grid;
 	unsigned tileToPlace;
 
     Board(std::vector<Tile*> tiles);
+	Board(const Board& board);
 	~Board();
 };
 #endif
