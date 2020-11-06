@@ -5,3 +5,4 @@ break src/Solver.cpp:74
 
 #affichage contenu grid du currentBoard (pointeurs)
 print this->currentBoard->grid
+

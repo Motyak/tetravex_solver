@@ -4,6 +4,7 @@
 #include "Board.h"
 
 #include <stack>
+#include <iostream>
 
 class Solver
 {
@@ -15,11 +16,10 @@ class Solver
   	Solver(const std::string& instanceFileName);
     ~Solver();
     bool solve();
-	void printBoard();
-	bool boardIsSolved();
+	void printBoard(Board* board = nullptr);
 
   private:
-	// bool boardIsSolved();
+	bool boardIsSolved();
 	bool tileCanBePlaced(const unsigned& tileIndex, const unsigned& gridIndex);
 };
 #endif

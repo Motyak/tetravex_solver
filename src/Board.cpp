@@ -1,5 +1,7 @@
 #include "Board.h"
 
+#include <iostream>
+
 Board::Board(std::vector<Tile*> tiles)
 {
     unsigned nbOfTiles = tiles.size();
@@ -9,10 +11,8 @@ Board::Board(std::vector<Tile*> tiles)
     this->tiles = tiles;
 
     for(int i = 0 ; i < nbOfTiles ; ++i)
-    {
         this->grid.push_back(nullptr);
-        this->freePositions.push(i);
-    }
+
     this->tileToPlace = 0;
 }
 
@@ -21,7 +21,15 @@ Board::~Board()
     unsigned nbOfTiles = this->tiles.size();
     for(int i = 0 ; i < nbOfTiles ; ++i)
     {
-        delete(this->tiles[i]);
-        delete(this->grid[i]);
+        if(this->tiles[i] != nullptr)
+        {
+            delete this->tiles[i];
+            this->tiles[i] = nullptr;
+        }
+        // if(this->grid[i] != nullptr)
+        // {
+        //     delete this->grid[i];
+        //     this->grid[i] = nullptr;
+        // }
     }
 }
