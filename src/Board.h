@@ -2,8 +2,11 @@
 #define BOARD_H
 
 #include <vector>
+#include <iostream>
 
-typedef struct 
+extern unsigned nbOfInstances;
+
+struct Tile
 {
 	// unsigned operator[](unsigned i)
 	// {
@@ -16,12 +19,12 @@ typedef struct
 	// 	}
 	// }
 	unsigned left, up, right, down;
-}Tile;
+};
 
 class Board
 {
   public:	
-	static unsigned nbOfInstances;
+	// static unsigned nbOfInstances;
 	//const
 	std::vector<Tile*> tiles;
     std::vector<Tile*> grid;

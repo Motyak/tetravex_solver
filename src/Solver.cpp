@@ -56,23 +56,27 @@ bool Solver::solve()
         this->currentBoard = this->stack.top();
         this->stack.pop();
 
-        //std::cout<<"debug loop iteration "<<compteur<<std::endl;
-        // this->printBoard();
+        std::cout<<"debug loop iteration "<<compteur<<std::endl;
+        this->printBoard();
 
 
         // si currentBoard est solution, on arrete la
         if(this->boardIsSolved())
+        {
+            // clear la stack (désallouer les boards restants
+            // std::cout<<"total nb of boards : "<<nbOfInstances<<std::endl;//debug
             return true;
+        }
         else
         {
-            //std::cout<<"board isnt solved"<<std::endl;
+            std::cout<<"board isnt solved"<<std::endl;
             // on push dans la stack les différents scénarios possibles (boards)
             for(int i = 0 ; i < this->currentBoard->tiles.size() ; ++i)
             {
                 // si la tileToPlace est placable a la position..
                 if(this->tileCanBePlaced(this->currentBoard->tileToPlace, i))
                 {
-                    //std::cout<<"tile can be placed"<<std::endl;//debug
+                    std::cout<<"tile can be placed"<<std::endl;//debug
                     // on clone currentBoard et on y ajoute la tile
                     Board* child = new Board(*this->currentBoard);
                     child->grid[i] = child->tiles[child->tileToPlace];
@@ -80,17 +84,21 @@ bool Solver::solve()
                     // on l'ajoute à la stack
                     this->stack.push(child);
 
-                    //std::cout<<"child pushed in stack :"<<std::endl;
-                    // this->printBoard(child);
-                    //std::cout<<"tile to place : "<<child->tileToPlace<<std::endl;
+                    std::cout<<"child pushed in stack :"<<std::endl;
+                    this->printBoard(child);
+                    std::cout<<"tile to place : "<<child->tileToPlace<<std::endl;
                     //std::cout<<"";//debug gdb break
                 }
-                // freePosition++;
+                else
+                {
+                    // désallouer récursivement boards inutiles
+                }
+                
             }
         }
-        //std::cout<<"current board :"<<std::endl;
-        // this->printBoard();
-        //std::cout<<"fin loop iteration "<<compteur<<std::endl<<std::endl;
+        std::cout<<"current board :"<<std::endl;
+        this->printBoard();
+        std::cout<<"fin loop iteration "<<compteur<<std::endl<<std::endl;
         ++compteur;
     }
     return false;

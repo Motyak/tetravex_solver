@@ -178,3 +178,50 @@ PB : trop de mémoires consommés, trop de boards créés, met trop de temps
 
 L'exemple 4x4 nécessite 1050313 plateaux générés avant de trouver la solution.
 L'exemple 3x3 nécessite 167 plateaux (fait en 0.024s).
+
+
+
+
+Idées pour résoudre le pb de mémoire :
+-Stocker les pointeurs vers les Boards fils (récursif), 
+lorsqu'on ajoute un fils a un board, on l'ajoute également à tous les
+parents/successeurs du board à qui on ajoute le fils.
+Lorsqu'un board mène vers une dead end, il s'enlève des fils de tous ses
+parents puis se désalloue s'il n'a plus de fils.
+Si un board mène vers une dead end et qu'il n'a plus de fils, il se
+désalloue.
+
+EN GROS, quand un board mène vers une deadend, avant de désallouer le board 
+en question, il faut vérifier si on peut désallouer son parent récursivement.
+En gros, on peut désallouer le parent s'il n'a que lui comme fils.
+Du coup il faut remontrer jusqu'en haut de la branche pour désallouer tous les
+boards qui n'ont plus de raison d'exister.
+
+
+
+
+
+
+
+Stratégie pour désallouer la mémoire récursivement au fur et à mesure que
+des branches se ferment :
+Lorsqu'on ne trouve aucun board candidat à ajouter à la stack, c'est à dire
+lorsqu'on rencontre une dead end, on désalloue récursivement les plateaux
+qui n'ont plus de raison d'exister.
+Il faut que chaque board ait un pointeur vers son parent, ainsi qu'un nombre de 
+fils.
+Exemple : '2->1' mène vers une dead end, du coup je stocke temporairement
+l'adresse de son parent avant de le désallouer (le fils). 
+Puis j'enlève le fils, désalloué, du nombre de fils du parent.
+Si le parent n'a plus de raison d'exister (dead end car plus aucun fils),
+alors on stocke temporairement son parent avant de le désallouer, etc.....
+
+Je vais peut etre devoir utiliser des shared_ptr car lorsque je vais désallouer
+le parent d'un board, il va falloir que j'affecte la valeur nullptr non seulement
+au pointeur du parent, contenu dans le fils, mais aussi au pointeur du parent qui
+se trouve encore dans la stack (sinon ca pointe vers espace désalloué).
+Du coup je pars du principe qu'il est possible d'un stack.top() soit nullptr, 
+donc si c'est le cas on récupère le prochain stack.top() (après un pop()).
+
+Concrètement, pour résoudre tous les problèmes de désallocation de mémoire
+dynamique, on va utiliser que des unique_ptr et shared_ptr.

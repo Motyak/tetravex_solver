@@ -2,10 +2,13 @@
 
 #include <iostream>
 
-unsigned Board::nbOfInstances = 1;
+unsigned nbOfInstances = 0;
 
 Board::Board(std::vector<Tile*> tiles)
 {
+    nbOfInstances++;
+    std::cout<<"<<total nb of boards : "<<nbOfInstances<<std::endl;//debug
+
     unsigned nbOfTiles = tiles.size();
     // verifier que le nombre de tiles est >= 4
     // verifier que le nombre de tiles est un carre parfait
@@ -21,8 +24,8 @@ Board::Board(std::vector<Tile*> tiles)
 // on pourra laisser celui par défaut apres debuggage
 Board::Board(const Board& board)
 {
-    this->nbOfInstances++;
-    std::cout<<"nb de boards : "<<this->nbOfInstances<<std::endl;
+    nbOfInstances++;
+    std::cout<<"<<total nb of boards : "<<nbOfInstances<<std::endl;//debug
 
     this->tiles = board.tiles;
     this->grid = board.grid;
@@ -31,6 +34,9 @@ Board::Board(const Board& board)
 
 Board::~Board()
 {
+    nbOfInstances--;
+    std::cout<<"<<total nb of boards : "<<nbOfInstances<<std::endl;//debug
+
     unsigned nbOfTiles = this->tiles.size();
     for(int i = 0 ; i < nbOfTiles ; ++i)
     {

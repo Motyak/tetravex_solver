@@ -7,7 +7,7 @@
 // g++ -o bin/main src/Board.cpp src/Solver.cpp src/main.cpp
 int main()
 {
-    Solver solver("examples/3x3.txt");
+    Solver solver("examples/2x2.txt");
 
 
     // std::vector<Tile*> grid = {new Tile({3, 7, 9, 7}), nullptr, nullptr, nullptr};

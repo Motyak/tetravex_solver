@@ -6,6 +6,8 @@
 #include <stack>
 #include <iostream>
 
+extern unsigned nbOfInstances;
+
 class Solver
 {
     unsigned width, height;
