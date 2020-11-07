@@ -4,7 +4,7 @@
 
 unsigned nbOfInstances = 0;
 
-Board::Board(std::vector<Tile*> tiles)
+Board::Board(std::vector<std::shared_ptr<Tile>> tiles)
 {
     nbOfInstances++;
     std::cout<<"<<total nb of boards : "<<nbOfInstances<<std::endl;//debug
@@ -16,7 +16,7 @@ Board::Board(std::vector<Tile*> tiles)
     this->tiles = tiles;
 
     for(int i = 0 ; i < nbOfTiles ; ++i)
-        this->grid.push_back(nullptr);
+        this->grid.push_back(std::make_shared<Tile>());
 
     this->tileToPlace = 0;
 }
@@ -37,18 +37,18 @@ Board::~Board()
     nbOfInstances--;
     std::cout<<"<<total nb of boards : "<<nbOfInstances<<std::endl;//debug
 
-    unsigned nbOfTiles = this->tiles.size();
-    for(int i = 0 ; i < nbOfTiles ; ++i)
-    {
-        if(this->tiles[i] != nullptr)
-        {
-            delete this->tiles[i];
-            this->tiles[i] = nullptr;
-        }
-        // if(this->grid[i] != nullptr)
-        // {
-        //     delete this->grid[i];
-        //     this->grid[i] = nullptr;
-        // }
-    }
+    // unsigned nbOfTiles = this->tiles.size();
+    // for(int i = 0 ; i < nbOfTiles ; ++i)
+    // {
+    //     if(this->tiles[i] != nullptr)
+    //     {
+    //         delete this->tiles[i];
+    //         this->tiles[i] = nullptr;
+    //     }
+    //     if(this->grid[i] != nullptr)
+    //     {
+    //         delete this->grid[i];
+    //         this->grid[i] = nullptr;
+    //     }
+    // }
 }

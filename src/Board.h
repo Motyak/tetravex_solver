@@ -2,7 +2,7 @@
 #define BOARD_H
 
 #include <vector>
-#include <iostream>
+#include <memory>
 
 extern unsigned nbOfInstances;
 
@@ -26,11 +26,11 @@ class Board
   public:	
 	// static unsigned nbOfInstances;
 	//const
-	std::vector<Tile*> tiles;
-    std::vector<Tile*> grid;
+	std::vector<std::shared_ptr<Tile>> tiles;
+    std::vector<std::shared_ptr<Tile>> grid;
 	unsigned tileToPlace;
 
-    Board(std::vector<Tile*> tiles);
+    Board(std::vector<std::shared_ptr<Tile>> tiles);
 	Board(const Board& board);
 	~Board();
 };

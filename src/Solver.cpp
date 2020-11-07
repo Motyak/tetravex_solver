@@ -2,6 +2,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <memory>
 
 Solver::Solver(const std::string& instanceFileName)
 {
@@ -10,26 +11,29 @@ Solver::Solver(const std::string& instanceFileName)
     file >> this->width;
     file >> this->height;
     nbOfTiles = this->width * this->height;
-    std::vector<Tile*> tiles;
+    std::vector<std::shared_ptr<Tile>> tiles;
+    std::vector<std::shared_ptr<Tile>> grid;
     for(int i = 0 ; i < nbOfTiles ; ++i)
     {
-        tiles.push_back(new Tile());
+        tiles.push_back(std::make_shared<Tile>());
+        grid.push_back(std::shared_ptr<Tile>());
         file >> tiles[i]->left;
         file >> tiles[i]->up;
         file >> tiles[i]->right;
         file >> tiles[i]->down;
     }
-    this->currentBoard = new Board(tiles);
+    this->currentBoard = std::make_shared<Board>(tiles);
+    this->currentBoard->grid = grid;
     file.close();
 }
 
 Solver::~Solver()
 {
-    if(this->currentBoard != nullptr)
-    {
-            delete this->currentBoard;
-            this->currentBoard = nullptr;
-    }
+    // if(this->currentBoard != nullptr)
+    // {
+    //         delete this->currentBoard;
+    //         this->currentBoard = nullptr;
+    // }
 
     // // on désalloue la stack complète
     // while(!this->stack.empty())
@@ -78,14 +82,14 @@ bool Solver::solve()
                 {
                     std::cout<<"tile can be placed"<<std::endl;//debug
                     // on clone currentBoard et on y ajoute la tile
-                    Board* child = new Board(*this->currentBoard);
+                    std::shared_ptr<Board> child = std::make_shared<Board>(*this->currentBoard);
                     child->grid[i] = child->tiles[child->tileToPlace];
                     child->tileToPlace++;
                     // on l'ajoute à la stack
                     this->stack.push(child);
 
                     std::cout<<"child pushed in stack :"<<std::endl;
-                    this->printBoard(child);
+                    this->printBoard(child.get());
                     std::cout<<"tile to place : "<<child->tileToPlace<<std::endl;
                     //std::cout<<"";//debug gdb break
                 }
@@ -115,7 +119,7 @@ bool Solver::boardIsSolved()
 
 bool Solver::tileCanBePlaced(const unsigned& tileIndex, const unsigned& gridIndex)
 {
-    Tile* t = this->currentBoard->tiles[tileIndex];
+    Tile* t = this->currentBoard->tiles[tileIndex].get();
 
     // si l'emplacement est déjà pris => pas possible
     if(this->currentBoard->grid[gridIndex] != nullptr)
@@ -152,11 +156,11 @@ void Solver::printBoard(Board* board)
 {
     // no argument specified => use this->currentBoard
     if(board == nullptr)
-        board = this->currentBoard;
+        board = this->currentBoard.get();
     unsigned nbOfTiles = board->tiles.size();
     for(int i = 0 ; i < nbOfTiles ; ++i)
     {
-        Tile* t = board->grid[i];
+        Tile* t = board->grid[i].get();
         std::cout<<"["<<i<<"] => ";
         if(t == nullptr)
             std::cout<<"<vide>"<<std::endl;

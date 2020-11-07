@@ -4,15 +4,14 @@
 #include "Board.h"
 
 #include <stack>
-#include <iostream>
 
 extern unsigned nbOfInstances;
 
 class Solver
 {
     unsigned width, height;
-    Board* currentBoard;
-    std::stack<Board*> stack;
+    std::shared_ptr<Board> currentBoard;
+    std::stack<std::shared_ptr<Board>> stack;
 
   public:
   	Solver(const std::string& instanceFileName);

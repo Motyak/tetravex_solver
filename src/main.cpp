@@ -27,6 +27,7 @@ int main()
     {
         std::cout<<"Solution found :"<<std::endl;
         solver.printBoard();
+        std::cout<<""<<std::endl;//gdb debug
     }
         
     else
