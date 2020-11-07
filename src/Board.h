@@ -28,10 +28,14 @@ class Board
 	//const
 	std::vector<std::shared_ptr<Tile>> tiles;
     std::vector<std::shared_ptr<Tile>> grid;
+	std::shared_ptr<Board> parent;
+	unsigned nbOfChildren;
 	unsigned tileToPlace;
+	
 
     Board(std::vector<std::shared_ptr<Tile>> tiles);
 	Board(const Board& board);
 	~Board();
+	void addParent(std::shared_ptr<Board> parent);
 };
 #endif

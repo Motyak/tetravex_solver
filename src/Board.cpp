@@ -19,9 +19,10 @@ Board::Board(std::vector<std::shared_ptr<Tile>> tiles)
         this->grid.push_back(std::make_shared<Tile>());
 
     this->tileToPlace = 0;
+    this->parent = std::shared_ptr<Board>();
+    this->nbOfChildren = 0;
 }
 
-// on pourra laisser celui par défaut apres debuggage
 Board::Board(const Board& board)
 {
     nbOfInstances++;
@@ -30,6 +31,10 @@ Board::Board(const Board& board)
     this->tiles = board.tiles;
     this->grid = board.grid;
     this->tileToPlace = board.tileToPlace;
+
+
+    this->parent = std::shared_ptr<Board>();
+    this->nbOfChildren = 0;
 }
 
 Board::~Board()
@@ -51,4 +56,9 @@ Board::~Board()
     //         this->grid[i] = nullptr;
     //     }
     // }
+}
+
+void Board::addParent(std::shared_ptr<Board> parent)
+{
+    this->parent = parent;
 }

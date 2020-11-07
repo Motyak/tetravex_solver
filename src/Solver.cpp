@@ -57,6 +57,8 @@ bool Solver::solve()
     while(!this->stack.empty())
     {
         // on traite la pile
+        // while(this->stack.top() == nullptr)
+        //     this->stack.pop();
         this->currentBoard = this->stack.top();
         this->stack.pop();
 
@@ -67,7 +69,6 @@ bool Solver::solve()
         // si currentBoard est solution, on arrete la
         if(this->boardIsSolved())
         {
-            // clear la stack (désallouer les boards restants
             // std::cout<<"total nb of boards : "<<nbOfInstances<<std::endl;//debug
             return true;
         }
@@ -77,14 +78,16 @@ bool Solver::solve()
             // on push dans la stack les différents scénarios possibles (boards)
             for(int i = 0 ; i < this->currentBoard->tiles.size() ; ++i)
             {
+                std::cout<<"i="<<i<<std::endl;
                 // si la tileToPlace est placable a la position..
                 if(this->tileCanBePlaced(this->currentBoard->tileToPlace, i))
                 {
                     std::cout<<"tile can be placed"<<std::endl;//debug
-                    // on clone currentBoard et on y ajoute la tile
+                    // on clone currentBoard et on y ajoute la tile (et son parent)
                     std::shared_ptr<Board> child = std::make_shared<Board>(*this->currentBoard);
                     child->grid[i] = child->tiles[child->tileToPlace];
                     child->tileToPlace++;
+                    child->addParent(this->currentBoard);
                     // on l'ajoute à la stack
                     this->stack.push(child);
 
@@ -93,15 +96,26 @@ bool Solver::solve()
                     std::cout<<"tile to place : "<<child->tileToPlace<<std::endl;
                     //std::cout<<"";//debug gdb break
                 }
+                // sinon, c'est une dead end
                 else
                 {
-                    // désallouer récursivement boards inutiles
+                    // std::cout<<"ca sent la mort"<<std::endl;
+                    // // désallouer récursivement boards inutiles
+                    // std::shared_ptr<Board> tmp;
+                    // std::shared_ptr<Board> parent = this->currentBoard->parent;
+                    // this->currentBoard.reset();//
+                    // // while(parent != nullptr || parent.get()->nbOfChildren == 1)
+                    // // {
+                    // //     parent = tmp;
+                    // //     parent = tmp.get()->parent;
+                    // //     tmp.reset();
+                    // // }
+                    // std::cout<<"il sort ou pas"<<std::endl;
                 }
-                
             }
         }
-        std::cout<<"current board :"<<std::endl;
-        this->printBoard();
+        // std::cout<<"current board :"<<std::endl;
+        // this->printBoard();
         std::cout<<"fin loop iteration "<<compteur<<std::endl<<std::endl;
         ++compteur;
     }
