@@ -19,7 +19,9 @@ class Solver
 
   public:
   	Solver(const std::string& instanceFileName);
-    bool solve();
+    // bool solve();
+    bool solveV2(std::shared_ptr<Board> cur);
   	void printBoard(Board* board = nullptr);
+    std::shared_ptr<Board> getCurrentBoard();
 };
 #endif

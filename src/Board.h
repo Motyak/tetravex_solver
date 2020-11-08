@@ -18,11 +18,13 @@ struct Board
 
     std::vector<std::shared_ptr<Tile>> grid;
 	unsigned tileToPlace;
+	int whereToPlaceTile;
 
     Board(std::vector<std::shared_ptr<Tile>>* tiles, unsigned* width, unsigned* height);
 	Board(const Board& board);
 
 	bool isSolved();
-	bool tileCanBePlaced(const unsigned& tileIndex, const unsigned& gridIndex);
+	bool tileCanBePlaced();
+	void nextCandidate();
 };
 #endif

@@ -12,6 +12,7 @@ Board::Board(std::vector<std::shared_ptr<Tile>>* tiles, unsigned* width, unsigne
         this->grid.push_back(std::make_shared<Tile>());
 
     this->tileToPlace = 0;
+    this->whereToPlaceTile = -1;
 }
 
 Board::Board(const Board& board)
@@ -21,6 +22,7 @@ Board::Board(const Board& board)
     this->height = board.height;
     this->grid = board.grid;
     this->tileToPlace = board.tileToPlace;
+    this->whereToPlaceTile = board.whereToPlaceTile;
 }
 
 bool Board::isSolved()
@@ -28,9 +30,10 @@ bool Board::isSolved()
     return this->tileToPlace >= this->tiles->size();
 }
 
-bool Board::tileCanBePlaced(const unsigned& tileIndex, const unsigned& gridIndex)
+bool Board::tileCanBePlaced()
 {
-    Tile* t = (*this->tiles)[tileIndex].get();
+    Tile* t = (*this->tiles)[this->tileToPlace].get();
+    unsigned gridIndex = this->whereToPlaceTile;
 
     // si l'emplacement est déjà pris => pas possible
     if(this->grid[gridIndex] != nullptr)
@@ -61,4 +64,9 @@ bool Board::tileCanBePlaced(const unsigned& tileIndex, const unsigned& gridIndex
                 return false;
 
     return true;
+}
+
+void Board::nextCandidate()
+{
+    this->whereToPlaceTile++;
 }
