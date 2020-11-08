@@ -23,6 +23,6 @@ struct Board
 	Board(const Board& board);
 
 	bool isSolved();
-	bool tileCanBePlaced(const unsigned& tileIndex, const unsigned& gridIndex);
+	bool tileCanBePlaced(const unsigned& gridIndex);
 };
 #endif

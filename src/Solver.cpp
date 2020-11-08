@@ -45,7 +45,7 @@ bool Solver::solve()
         {
             for(int i = 0 ; i < cur->tiles->size() ; ++i)
             {
-                if(cur->tileCanBePlaced(cur->tileToPlace, i))
+                if(cur->tileCanBePlaced(i))
                 {
                     std::shared_ptr<Board> child = std::make_shared<Board>(*cur);
                     child->grid[i] = (*child->tiles)[child->tileToPlace];

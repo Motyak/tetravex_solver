@@ -28,9 +28,9 @@ bool Board::isSolved()
     return this->tileToPlace >= this->tiles->size();
 }
 
-bool Board::tileCanBePlaced(const unsigned& tileIndex, const unsigned& gridIndex)
+bool Board::tileCanBePlaced(const unsigned& gridIndex)
 {
-    Tile* t = (*this->tiles)[tileIndex].get();
+    Tile* t = (*this->tiles)[this->tileToPlace].get();
 
     // si l'emplacement est déjà pris => pas possible
     if(this->grid[gridIndex] != nullptr)
