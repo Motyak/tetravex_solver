@@ -19,7 +19,6 @@ class Solver
 
   public:
   	Solver(const std::string& instanceFileName);
-    ~Solver();
     bool solve();
   	void printBoard(Board* board = nullptr);
 };

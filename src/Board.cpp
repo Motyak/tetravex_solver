@@ -1,14 +1,7 @@
 #include "Board.h"
 
-// #include <iostream>
-
-// unsigned nbOfInstances = 0;
-
 Board::Board(std::vector<std::shared_ptr<Tile>>* tiles, unsigned* width, unsigned* height)
 {
-    // nbOfInstances++;
-    // std::cout<<"<<total nb of boards : "<<nbOfInstances<<">>"<<std::endl;//debug
-
     unsigned nbOfTiles = tiles->size();
 
     this->tiles = tiles;
@@ -23,20 +16,11 @@ Board::Board(std::vector<std::shared_ptr<Tile>>* tiles, unsigned* width, unsigne
 
 Board::Board(const Board& board)
 {
-    // nbOfInstances++;
-    // std::cout<<"<<total nb of boards : "<<nbOfInstances<<">>"<<std::endl;//debug
-
     this->tiles = board.tiles;
     this->width = board.width;
     this->height = board.height;
     this->grid = board.grid;
     this->tileToPlace = board.tileToPlace;
-}
-
-Board::~Board()
-{
-    // nbOfInstances--;
-    // std::cout<<"<<total nb of boards : "<<nbOfInstances<<">>"<<std::endl;//debug
 }
 
 bool Board::isSolved()

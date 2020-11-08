@@ -29,11 +29,6 @@ Solver::Solver(const std::string& instanceFileName)
     file.close();
 }
 
-Solver::~Solver()
-{
-    ;
-}
-
 bool Solver::solve()
 {
     auto& cur = this->currentBoard;

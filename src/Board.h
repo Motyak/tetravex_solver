@@ -4,20 +4,8 @@
 #include <vector>
 #include <memory>
 
-extern unsigned nbOfInstances;
-
 struct Tile
 {
-	// unsigned operator[](unsigned i)
-	// {
-	// 	switch(i)
-	// 	{
-	// 		case 0: return this->left;
-	// 		case 1: return this->up;
-	// 		case 2: return this->right;
-	// 		case 3: return this->down;
-	// 	}
-	// }
 	unsigned left, up, right, down;
 };
 
