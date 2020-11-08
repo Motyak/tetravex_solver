@@ -17,7 +17,8 @@ class Solver
   	Solver(const std::string& instanceFileName);
     ~Solver();
     bool solve();
-	void printBoard(Board* board = nullptr);
+  	void printBoard(Board* board = nullptr);
+	void printStack();
 
   private:
 	bool boardIsSolved();
