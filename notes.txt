@@ -198,11 +198,6 @@ Du coup il faut remontrer jusqu'en haut de la branche pour désallouer tous les
 boards qui n'ont plus de raison d'exister.
 
 
-
-
-
-
-
 Stratégie pour désallouer la mémoire récursivement au fur et à mesure que
 des branches se ferment :
 Lorsqu'on ne trouve aucun board candidat à ajouter à la stack, c'est à dire
@@ -227,8 +222,7 @@ Le PB c'est que si on désalloue currentBoard pendant la boucle for (pour push
 des candidats potentiels dans la stack), bah du coup je peux plus faire de vérif
 de tileToPlace parce qu'il est null.
 
+=> Au final pas eu besoin
 
 
-On a un SEGFAULT parce que quand on fait un this->currentBoard.reset(); dans la
-boucle for (dans le cas où on a une dead end), bah du coup je peux plus utiliser
-this->currentBoard->tileToPlace pour la recherche de candidats a posteriori. 
+

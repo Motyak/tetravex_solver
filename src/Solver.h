@@ -18,7 +18,10 @@ class Solver
     ~Solver();
     bool solve();
   	void printBoard(Board* board = nullptr);
+
+	// debug methods
 	void printStack();
+	void printFreePositions();
 
   private:
 	bool boardIsSolved();

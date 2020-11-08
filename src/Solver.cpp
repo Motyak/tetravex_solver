@@ -48,14 +48,13 @@ bool Solver::solve()
 
         std::cout<<"debug loop iteration "<<compteur<<std::endl;
         // this->printBoard();
-        std::cout<<"current stack :"<<std::endl;
-        this->printStack();
+        // std::cout<<"current stack :"<<std::endl;
+        // this->printStack();
 
 
         // si currentBoard est solution, on arrete la
         if(this->boardIsSolved())
         {
-            // clear la stack (désallouer les boards restants
             // std::cout<<"total nb of boards : "<<nbOfInstances<<std::endl;//debug
             return true;
         }
@@ -63,41 +62,31 @@ bool Solver::solve()
         {
             // std::cout<<"board isnt solved"<<std::endl;
             // on push dans la stack les différents scénarios possibles (boards)
-            unsigned freePosition;
-            std::queue<unsigned> restore = this->currentBoard->freePositions;
-            while(!this->currentBoard->freePositions.empty())
+            for(int i = 0 ; i < this->currentBoard->tiles.size() ; ++i)
             {
-                freePosition = this->currentBoard->freePositions.front();
-                this->currentBoard->freePositions.pop();
                 // si la tileToPlace est placable a la position..
-                if(this->tileCanBePlaced(this->currentBoard->tileToPlace, freePosition))
+                if(this->tileCanBePlaced(this->currentBoard->tileToPlace, i))
                 {
                     // std::cout<<"tile can be placed"<<std::endl;//debug
                     // on clone currentBoard et on y ajoute la tile
                     std::shared_ptr<Board> child = std::make_shared<Board>(*this->currentBoard);
-                    child->grid[freePosition] = child->tiles[child->tileToPlace];
+                    child->grid[i] = child->tiles[child->tileToPlace];
                     child->tileToPlace++;
-                    child->freePositions = restore;
                     // on l'ajoute à la stack
                     this->stack.push(child);
 
-                    // std::cout<<"child pushed in stack :"<<std::endl;
-                    // this->printBoard(child.get());
+                    std::cout<<"child pushed in stack :"<<std::endl;
+                    this->printBoard(child.get());
                     // std::cout<<"tile to place : "<<child->tileToPlace<<std::endl;
                     //std::cout<<"";//debug gdb break
                 }
-                else
-                {
-                    // désallouer récursivement boards inutiles
-                }
-                
             }
         }
         // std::cout<<"current board :"<<std::endl;
         // this->printBoard();
-        std::cout<<"current stack :"<<std::endl;
-        this->printStack();
-        std::cout<<"fin loop iteration "<<compteur<<std::endl<<std::endl;
+        // std::cout<<"current stack :"<<std::endl;
+        // this->printStack();
+        // std::cout<<"fin loop iteration "<<compteur<<std::endl<<std::endl;
         ++compteur;
     }
     return false;

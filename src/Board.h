@@ -25,11 +25,9 @@ struct Tile
 class Board
 {
   public:	
-	// static unsigned nbOfInstances;
 	//const
 	std::vector<std::shared_ptr<Tile>> tiles;
     std::vector<std::shared_ptr<Tile>> grid;
-	std::queue<unsigned> freePositions;
 	unsigned tileToPlace;
 
     Board(std::vector<std::shared_ptr<Tile>> tiles);
