@@ -1,5 +1,5 @@
 CC=g++
-# CFLAGS=--std=c++11
+CFLAGS=-O3
 SRC=src/Board.cpp src/Solver.cpp src/main.cpp
 OBJ=obj/Board.o obj/Solver.o obj/main.o
 EXEC=bin/tetravex-solver
@@ -8,16 +8,16 @@ DIRS=bin obj
 all: $(EXEC)
 
 $(EXEC): $(OBJ)
-	$(CC) $^ -o $@
+	$(CC) $^ -o $@ $(CFLAGS)
 
 obj/Board.o: src/Board.cpp src/Board.h
-	$(CC) -c src/Board.cpp -o obj/Board.o
+	$(CC) -c src/Board.cpp -o obj/Board.o $(CFLAGS)
 
 obj/Solver.o: src/Solver.cpp src/Solver.h
-	$(CC) -c src/Solver.cpp -o obj/Solver.o
+	$(CC) -c src/Solver.cpp -o obj/Solver.o $(CFLAGS)
 
 obj/main.o: src/main.cpp
-	$(CC) -c src/main.cpp -o obj/main.o
+	$(CC) -c src/main.cpp -o obj/main.o $(CFLAGS)
 
 clean:
 	rm -rf $(OBJ)
