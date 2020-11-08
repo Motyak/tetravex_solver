@@ -9,7 +9,11 @@ extern unsigned nbOfInstances;
 
 class Solver
 {
+	/*constants, et communs à tous les boards générés*/
     unsigned width, height;
+	std::vector<std::shared_ptr<Tile>> tiles;
+	/*-----------------------------------------------*/
+
     std::shared_ptr<Board> currentBoard;
     std::stack<std::shared_ptr<Board>> stack;
 
@@ -18,13 +22,5 @@ class Solver
     ~Solver();
     bool solve();
   	void printBoard(Board* board = nullptr);
-
-	// debug methods
-	void printStack();
-	void printFreePositions();
-
-  private:
-	bool boardIsSolved();
-	bool tileCanBePlaced(const unsigned& tileIndex, const unsigned& gridIndex);
 };
 #endif

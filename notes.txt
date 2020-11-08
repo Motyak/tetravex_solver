@@ -226,3 +226,5 @@ de tileToPlace parce qu'il est null.
 
 
 
+Mettre un pointeur vers un std::vector<std::shared_ptr<Board>>> plutot
+que d'avoir un vector avec les memes pointeurs partout dans chaque board.

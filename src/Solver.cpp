@@ -1,8 +1,8 @@
 #include "Solver.h"
 
 #include <fstream>
-#include <iostream>
 #include <memory>
+#include <iostream>
 
 Solver::Solver(const std::string& instanceFileName)
 {
@@ -22,7 +22,9 @@ Solver::Solver(const std::string& instanceFileName)
         file >> tiles[i]->right;
         file >> tiles[i]->down;
     }
-    this->currentBoard = std::make_shared<Board>(tiles);
+    this->tiles = tiles;
+
+    this->currentBoard = std::make_shared<Board>(&this->tiles, &this->width, &this->height);
     this->currentBoard->grid = grid;
     file.close();
 }
@@ -32,108 +34,33 @@ Solver::~Solver()
     ;
 }
 
-//solve the problem and return the first board configuration found
 bool Solver::solve()
 {
-    // je push dans la stack le plateau non rempli
-    this->stack.push(this->currentBoard);
+    auto& cur = this->currentBoard;
 
-    // tant que la stack n'est pas vide..
-    int compteur = 1;   //debug
+    this->stack.push(cur);
     while(!this->stack.empty())
     {
-        // on traite la pile
-        this->currentBoard = this->stack.top();
+        cur = this->stack.top();
         this->stack.pop();
 
-        std::cout<<"debug loop iteration "<<compteur<<std::endl;
-        // this->printBoard();
-        // std::cout<<"current stack :"<<std::endl;
-        // this->printStack();
-
-
-        // si currentBoard est solution, on arrete la
-        if(this->boardIsSolved())
-        {
-            // std::cout<<"total nb of boards : "<<nbOfInstances<<std::endl;//debug
+        if(cur->isSolved())
             return true;
-        }
         else
         {
-            // std::cout<<"board isnt solved"<<std::endl;
-            // on push dans la stack les différents scénarios possibles (boards)
-            for(int i = 0 ; i < this->currentBoard->tiles.size() ; ++i)
+            for(int i = 0 ; i < cur->tiles->size() ; ++i)
             {
-                // si la tileToPlace est placable a la position..
-                if(this->tileCanBePlaced(this->currentBoard->tileToPlace, i))
+                if(cur->tileCanBePlaced(cur->tileToPlace, i))
                 {
-                    // std::cout<<"tile can be placed"<<std::endl;//debug
-                    // on clone currentBoard et on y ajoute la tile
-                    std::shared_ptr<Board> child = std::make_shared<Board>(*this->currentBoard);
-                    child->grid[i] = child->tiles[child->tileToPlace];
+                    std::shared_ptr<Board> child = std::make_shared<Board>(*cur);
+                    child->grid[i] = (*child->tiles)[child->tileToPlace];
                     child->tileToPlace++;
-                    // on l'ajoute à la stack
                     this->stack.push(child);
-
-                    std::cout<<"child pushed in stack :"<<std::endl;
-                    this->printBoard(child.get());
-                    // std::cout<<"tile to place : "<<child->tileToPlace<<std::endl;
-                    //std::cout<<"";//debug gdb break
                 }
             }
         }
-        // std::cout<<"current board :"<<std::endl;
-        // this->printBoard();
-        // std::cout<<"current stack :"<<std::endl;
-        // this->printStack();
-        // std::cout<<"fin loop iteration "<<compteur<<std::endl<<std::endl;
-        ++compteur;
     }
     return false;
-}
-
-bool Solver::boardIsSolved()
-{
-    unsigned nbOfTiles = this->currentBoard->tiles.size();
-    for(int i = 0 ; i < nbOfTiles ; ++i)
-        if(this->currentBoard->grid[i] == nullptr)
-            return false;
-    return true;
-}
-
-bool Solver::tileCanBePlaced(const unsigned& tileIndex, const unsigned& gridIndex)
-{
-    Tile* t = this->currentBoard->tiles[tileIndex].get();
-
-    // si l'emplacement est déjà pris => pas possible
-    if(this->currentBoard->grid[gridIndex] != nullptr)
-        return false;
-
-    // check left tile
-    if(gridIndex % this->width != 0)
-        if(this->currentBoard->grid[gridIndex - 1] != nullptr)
-            if(t->left != this->currentBoard->grid[gridIndex - 1]->right)
-                return false;
-
-    // check top tile
-    if(gridIndex >= this->width)
-        if(this->currentBoard->grid[gridIndex - this->width] != nullptr)
-            if(t->up != this->currentBoard->grid[gridIndex - this->width]->down)
-                return false;
-
-    // check right tile
-    if(gridIndex % this->width != this->width - 1)
-        if(this->currentBoard->grid[gridIndex + 1] != nullptr)
-            if(t->right != this->currentBoard->grid[gridIndex + 1]->left)
-                return false;
-
-    // check bottom tile
-    if(gridIndex < (this->height - 1) * this->width)
-        if(this->currentBoard->grid[gridIndex + this->width] != nullptr)
-            if(t->down != this->currentBoard->grid[gridIndex + this->width]->up)
-                return false;
-
-    return true;
 }
 
 void Solver::printBoard(Board* board)
@@ -141,26 +68,14 @@ void Solver::printBoard(Board* board)
     // no argument specified => use this->currentBoard
     if(board == nullptr)
         board = this->currentBoard.get();
-    unsigned nbOfTiles = board->tiles.size();
+    unsigned nbOfTiles = board->tiles->size();
     for(int i = 0 ; i < nbOfTiles ; ++i)
     {
-        Tile* t = board->grid[i].get();
+        auto& t = board->grid[i];
         std::cout<<"["<<i<<"] => ";
         if(t == nullptr)
             std::cout<<"<vide>"<<std::endl;
         else
             std::cout<<t->left<<";"<<t->up<<";"<<t->right<<";"<<t->down<<std::endl;
     } 
-}
-
-void Solver::printStack()
-{
-    std::stack<std::shared_ptr<Board>> restore = this->stack;
-    while(!this->stack.empty())
-    {
-        this->printBoard(this->stack.top().get());
-        std::cout<<"-----"<<std::endl;
-        this->stack.pop();
-    }
-    this->stack = restore;
 }
