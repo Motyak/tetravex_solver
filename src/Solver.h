@@ -5,8 +5,6 @@
 
 #include <stack>
 
-extern unsigned nbOfInstances;
-
 class Solver
 {
 	/*constants, et communs à tous les boards générés*/

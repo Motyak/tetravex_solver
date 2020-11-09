@@ -4,9 +4,13 @@
 #include <iostream>
 
 // g++ -o bin/main src/Board.cpp src/Solver.cpp src/main.cpp
-int main()
+int main(int argc, char* argv[])
 {
-    Solver solver("examples/4x4.txt");
+    std::string filename = "examples/4x4.txt";
+    if(argc > 1)
+        filename = std::string(argv[1]);
+
+    Solver solver(filename);
 
     if(solver.solve())
     {
