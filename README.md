@@ -1,4 +1,4 @@
-L'implémentation multithread n'a pas été terminé, son code est néanmoins disponible
+L'implémentation multithread n'a pas été terminée, son code est néanmoins disponible.
 
 # BUILD
 ```console
