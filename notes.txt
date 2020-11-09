@@ -228,3 +228,46 @@ de tileToPlace parce qu'il est null.
 
 Mettre un pointeur vers un std::vector<std::shared_ptr<Board>>> plutot
 que d'avoir un vector avec les memes pointeurs partout dans chaque board.
+
+
+
+__________________________________________________________
+
+
+Dans l'idée, faudrait qu'on ait un objet avec lequel on peut faire des demandes
+de service, genre il a un ensemble de threads à disposition et 
+si tous les threads sont occupés on attend qu'un se libère avant de passer à
+la suite.
+
+C'est cette partie là qu'on va proccess dans des threads (ligne 48):
+if(cur->tileCanBePlaced(i))
+{
+    std::shared_ptr<Board> child = std::make_shared<Board>(*cur);
+    child->grid[i] = (*child->tiles)[child->tileToPlace];
+    child->tileToPlace++;
+    this->stack.push(child);
+}
+
+
+
+Il suffit de faire chaque arbre individuellement, 
+le currentBoard sera non pas un plateau vide mais un board
+où sera placé la première pièce.
+Puis le premier qui trouve la solution return.
+Si un arbre n'aboutit pas, il construit un autre à partir
+d'une pièce de départ différente.
+
+EN fait on fait juste la méthode solve mais au lieu de prendre 
+un plateau initial vide on prend les candidats où la première pièce est placée.
+
+
+
+
+J'ai juste à faire une stack avec tous les plateaux candidats où la première
+pièce a été placé à chaque fois à un endroit différent.
+Le thread pool se sert dans la stack pour appliquer la fonction
+solve sur le board génèse pris depuis la stack.
+Lorsqu'un thread trouve une solution, il prévient le thread pool, 
+qui va ordonné aux autres threads d'arrêter. (mémoire désalloué toute seule ??)
+
+

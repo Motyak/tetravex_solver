@@ -4,8 +4,7 @@
 #include "Board.h"
 
 #include <stack>
-
-extern unsigned nbOfInstances;
+#include <future>
 
 class Solver
 {
@@ -19,7 +18,12 @@ class Solver
 
   public:
   	Solver(const std::string& instanceFileName);
-    bool solve();
-  	void printBoard(Board* board = nullptr);
+	bool solve(std::future<void>& fo);
+    bool solve(std::shared_ptr<Board>& board, std::future<void>& fo);
+	void printBoard();
+  	void printBoard(Board* board);
+	void cleanStack();
+
+	std::shared_ptr<Board> getCurrentBoard();
 };
 #endif

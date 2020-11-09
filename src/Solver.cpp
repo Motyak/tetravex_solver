@@ -3,6 +3,8 @@
 #include <fstream>
 #include <memory>
 #include <iostream>
+#include <future>
+#include <chrono>
 
 Solver::Solver(const std::string& instanceFileName)
 {
@@ -29,12 +31,12 @@ Solver::Solver(const std::string& instanceFileName)
     file.close();
 }
 
-bool Solver::solve()
-{
-    auto& cur = this->currentBoard;
+bool Solver::solve(std::future<void>& fo) { this->solve(this->currentBoard, fo); }
 
+bool Solver::solve(std::shared_ptr<Board>& cur, std::future<void>& fo)
+{
     this->stack.push(cur);
-    while(!this->stack.empty())
+    while(!this->stack.empty() && fo.wait_for(std::chrono::milliseconds(1)) == std::future_status::timeout)
     {
         cur = this->stack.top();
         this->stack.pop();
@@ -58,11 +60,10 @@ bool Solver::solve()
     return false;
 }
 
+void Solver::printBoard() { this->printBoard(this->currentBoard.get()); }
+
 void Solver::printBoard(Board* board)
 {
-    // no argument specified => use this->currentBoard
-    if(board == nullptr)
-        board = this->currentBoard.get();
     unsigned nbOfTiles = board->tiles->size();
     for(int i = 0 ; i < nbOfTiles ; ++i)
     {
@@ -73,4 +74,15 @@ void Solver::printBoard(Board* board)
         else
             std::cout<<t->left<<";"<<t->up<<";"<<t->right<<";"<<t->down<<std::endl;
     } 
+}
+
+void Solver::cleanStack()
+{
+    while(!this->stack.empty())
+        this->stack.pop();
+}
+
+std::shared_ptr<Board> Solver::getCurrentBoard()
+{
+    return this->currentBoard;
 }
